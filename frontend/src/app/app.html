@@ -1,0 +1,27 @@
+  <!-- Mueve el modal fuera para que siempre esté presente -->
+  <app-login-auxiliar></app-login-auxiliar>
+
+  <!-- Mostrar navbar y vistas solo si está autenticado -->
+  <div *ngIf="authService.estaAutenticado(); else soloLogin">
+    <app-navbar></app-navbar>
+
+    <div class="container mt-4">
+      <router-outlet></router-outlet>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+
+  <!-- Mostrar solo login o register si no ha iniciado sesión -->
+  <ng-template #soloLogin>
+    <router-outlet></router-outlet>
+  </ng-template>
+
+  <app-login-auxiliar
+  *ngIf="mostrarLoginAuxiliar"
+  [mostrarModal]="mostrarLoginAuxiliar"
+  (cerrar)="mostrarLoginAuxiliar = false">
+</app-login-auxiliar>
+
+<!-- Muestra el navbar con el botón que activa el modal -->
+<app-navbar (abrirModal)="mostrarLoginAuxiliar = true"></app-navbar>

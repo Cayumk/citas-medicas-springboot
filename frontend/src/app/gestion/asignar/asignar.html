@@ -1,0 +1,49 @@
+<div class="container mt-4">
+
+  <!-- Alerta visual dinámica -->
+  <div *ngIf="alerta.visible" class="alert alert-{{ alerta.tipo }}" role="alert">
+    {{ alerta.mensaje }}
+  </div>
+
+  <h2 class="mb-4">Gestión de Citas</h2>
+
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Fecha</th>
+        <th>Nombre del Usuario</th>
+        <th>EPS del Usuario</th>
+        <th>Médico</th>
+        <th>Nueva Fecha</th>
+        <th>Acción</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cita of citasPendientes">
+        <td>{{ cita.fecha }}</td>
+        <td>{{ cita.nombreUsuario }}</td>
+        <td>{{ cita.epsUsuario }}</td>
+
+        <td>
+          <select [(ngModel)]="cita.medicoSeleccionado" class="form-select">
+            <option value="">-- Seleccione --</option>
+            <option *ngFor="let medico of medicos" [value]="medico.idMedico">
+              {{ medico.nombre }}
+            </option>
+          </select>
+        </td>
+
+        <td>
+          <input type="date" [(ngModel)]="cita.nuevaFecha" class="form-control" />
+        </td>
+
+        <td>
+          <button class="btn btn-primary"
+                  (click)="asignarCita(cita.idCita, cita.medicoSeleccionado, cita.nuevaFecha)">
+            Asignar
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

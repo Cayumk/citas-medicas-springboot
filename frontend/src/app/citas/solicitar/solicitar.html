@@ -1,0 +1,62 @@
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0">Solicitar Cita Médica</h5>
+    </div>
+    <div class="card-body">
+      <!-- Formulario para verificar disponibilidad -->
+      <form [formGroup]="disponibilidadForm" (ngSubmit)="verificarDisponibilidad()">
+        <div class="mb-3">
+          <label for="especialidad" class="form-label">Especialidad</label>
+          <select id="especialidad" class="form-select" formControlName="especialidad" (change)="onEspecialidadChange()">
+            <option value="" disabled selected>Seleccione una especialidad</option>
+            <option *ngFor="let esp of especialidades" [value]="esp">{{ esp }}</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="idMedico" class="form-label">Médico</label>
+          <select id="idMedico" class="form-select" formControlName="idMedico">
+            <option value="" disabled selected>Seleccione un médico</option>
+            <option *ngFor="let medico of medicosFiltrados" [value]="medico.idMedico">{{ medico.nombre }}</option>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="fecha" class="form-label">Fecha</label>
+          <input type="date" id="fecha" class="form-control" formControlName="fecha">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Verificar disponibilidad</button>
+      </form>
+
+      <hr>
+
+
+      <form *ngIf="disponible" [formGroup]="citaForm" (ngSubmit)="solicitarCita()">
+        <div class="mb-3">
+          <label for="nombreUsuario" class="form-label">Nombre</label>
+          <input type="text" id="nombreUsuario" class="form-control" formControlName="nombreUsuario">
+        </div>
+
+        <div class="mb-3">
+          <label for="identificacionUsuario" class="form-label">Identificación</label>
+          <input type="text" id="identificacionUsuario" class="form-control" formControlName="identificacionUsuario">
+        </div>
+
+        <div class="mb-3">
+          <label for="epsUsuario" class="form-label">EPS</label>
+          <select id="epsUsuario" class="form-select" formControlName="epsUsuario">
+            <option value="" disabled selected>Seleccione una EPS</option>
+            <option *ngFor="let eps of epsList" [value]="eps.nombre">{{ eps.nombre }}</option>
+          </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Confirmar Cita</button>
+      </form>
+
+      <div *ngIf="mensaje" class="alert alert-info mt-3">{{ mensaje }}</div>
+    </div>
+  </div>
+</div>
+
